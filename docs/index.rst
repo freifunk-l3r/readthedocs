@@ -11,7 +11,12 @@ test
 
 .. toctree::
    :maxdepth: 2
-
+   
+   communities
+   infrastruktur
+   firmware
+   supernode
+   map
 
 
 Indices and tables
