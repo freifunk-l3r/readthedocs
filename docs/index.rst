@@ -7,6 +7,7 @@ Welcome to L3-Freifunk's documentation!
 =======================================
 
 Contents:
+test
 
 .. toctree::
    :maxdepth: 2
