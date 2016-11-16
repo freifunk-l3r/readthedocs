@@ -7,16 +7,14 @@ Welcome to L3-Freifunk's documentation!
 =======================================
 
 Contents:
-test
 
 .. toctree::
    :maxdepth: 2
-   
-   communities
-   infrastruktur
+
+   components
    firmware
-   supernode
-   map
+   interaction
+   server
 
 
 Indices and tables

@@ -1,31 +1,3 @@
-Allgemeines
-============
-Terminologie
-------------
-===========  ==========================================================================
-Begriff      Bedeutung                                                                 
-===========  ==========================================================================
-Node         Freifunk-Router vor Ort                                                   
-Gateway      Node mit der Fähigkeit Traffic ans Internet auszuleiten
-Client       Rechner eines Nutzers, der mit einem Node verbunden ist.  
-===========  ==========================================================================
-
-
-besondere Adressen/Netze
-------------------------
-.. csv-table::
- :header-rows: 1
- :delim: ;
- 
- Adresse; Bedeutung
- 2a06:8187:fbab:2::1; next-node IP-Adresse: Diese Adresse ist jedem Node zugewiesen. Der Node ist für alle direkt verbundenen Clients unter dieser Adresse erreichbar.
- 2a06:8187:fbab:1::/64;   eine bestimmte IP-Adresse in diesem Netz ist die local-node-IP-Adresse. Diese wird anhand der MAC-Adresse des Nodes bestimmt und lo zugewiesen.
- 2a06:8187:fbab:1::/64;   Infrastruktur-Netz: In diesem Netz liegen Nodes und Serverkomponenten
- 2a06:8187:fbab:2::/64;   Client-Netz: In diesem Netz liegen Clients
-
-Jeder Node und jeder Client ist somit über eine öffentliche IPv6-Adresse erreichbar.
-
-
 Firmware
 ========
 
@@ -33,7 +5,7 @@ Netzwerke
 ---------
 Mesh
 ~~~~
-Dieses Netz enthält alle Interfaces, die zur Aufrechterhaltung des Mesh genutzt werden. In der Standardkonfiguration mesh0 und mesh-vpn. Diese werden anhand :literal:`proto = gluon_mesh` identifiziert.
+Dieses Netz enthält alle Interfaces, die zur Aufrechterhaltung des Mesh genutzt werden. In der Standardkonfiguration ist das das mesh0-Interface über welches Nodes mit WLAN-Kontakt ins Netz eingebunden werden und das mesh-vpn-Interface welches genutzt wird um Nodes per Internetverbindung zusammenzuschließen. Diese Interfaces werden anhand :literal:`proto = gluon_mesh` identifiziert.
 
 Client
 ~~~~~~
