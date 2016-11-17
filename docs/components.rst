@@ -30,6 +30,9 @@ fastd
 -----
 Nodes, die keine direkte WLAN-Verbindung haben, können über die VPN-Software fastd Teil eines gemeinsamen Netzes werden. In einem Batman-Netz werden die IP-Pakete des Freifunk-Netzes in Batman-Frames eingepackt und diese in fastd-Pakete gesteckt. Im Babel-Netz haben wir eine Verschachtelungsebene weniger, die IP-Pakete aus dem Freifunknetz können direkt auf den fastd-Interfaces transportiert werden. Die Datenströme zur Verwaltung des Netzes liegen daneben.
 
+.. image:: MTU-calculation-helper-sheet-for-Freifunk-Networks.png
+ :name: MTU in einem Batman-Netz
+
 TODO: Vergleich MTU-Bild vorher und nachher einfügen
 
 Der Einsatz anderer VPN-Technologien (sogar im Parallelbetrieb zu fastd) ist denkbar. In Frankfurt haben wir uns entschieden nicht zu viele Komponenten gleichzeitig auszutauschen. Fastd hat sich bewährt.
@@ -49,6 +52,7 @@ mmfd kann genutzt werden um multicast (gegenwärtig broadcast) in einem l3-meshn
 prefixd
 -------
 Dieser Dienst existiert noch nicht. Sobald sich das ändert, 
+
 respondd
 --------
 Der dienst wird wie im Batman-Netz auch genutzt um Monitoring und Mapdaten im Netz zu transportieren.
