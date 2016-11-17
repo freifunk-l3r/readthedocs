@@ -39,7 +39,8 @@ Der Einsatz anderer VPN-Technologien (sogar im Parallelbetrieb zu fastd) ist den
 
 babeld
 ------
-babeld liest seinen Input für die optimierung ond Verteilung der Routen aus dne Tabellen 11 (dorthin schreibt l3roamd) und 12. Der Rest funktioniert automatisch. Dabei ist folgende Konfiguration ein guter Startwert
+babeld liest seinen Input für die Optimierung und Verteilung der Routen aus den Tabellen 11 (dorthin schreibt l3roamd) und 12. Der Rest funktioniert automatisch. Dabei ist folgende Konfiguration ein guter Startwert:
+TODO Konfiguration einfügen
 
 l3roamd
 -------
@@ -51,12 +52,10 @@ mmfd kann genutzt werden um multicast (gegenwärtig broadcast) in einem l3-meshn
 
 prefixd
 -------
-Dieser Dienst existiert noch nicht. Sobald sich das ändert, 
+Dieser Dienst existiert noch nicht. TODO sobald sich das ändert, dokumentieren
 
 respondd
 --------
-Der dienst wird wie im Batman-Netz auch genutzt um Monitoring und Mapdaten im Netz zu transportieren.
-
-
+Der Dienst wird wie im Batman-Netz auch genutzt um Monitoring und Mapdaten im Netz zu transportieren.
 
 
