@@ -66,6 +66,7 @@ Dieses Paket integriert die einzelnen Komponenten mmfd, babeld, die firewall. ba
 
 
 Auf dem Gerät laufen zwei Instanzen von dnsmasq. Eine Instanz dient der Möglichkeit der Namensauflösung für fastd. Per Firewall-Rule wird dem fastd-User erlaubt auf diese dnsmasq-Instanz auf Port 54 zuzugreifen.
+Interfaces, die das mesh-Protokoll ausführen, werden durch das gluon-core Paket automatisch der mesh-Firewall-Zone zugeordnet.
 Die zweite dnsmasq-Instanz dient als dns-Cache für angeschlossene Clients. Hier wird der AAAA-Record "nextnode" in die nextnode-IP-Adresse aufgelöst.
 
 gluon-client-bridge-babel

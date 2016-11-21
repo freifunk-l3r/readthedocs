@@ -33,9 +33,12 @@ Nodes, die keine direkte WLAN-Verbindung haben, können über die VPN-Software f
 .. image:: MTU-calculation-helper-sheet-for-Freifunk-Networks.png
  :name: MTU in einem Batman-Netz
 
-TODO: Vergleich MTU-Bild vorher und nachher einfügen
+.. image:: MTU-calculation-helper-sheet-for-Freifunk-Networks_babel.png
+ :name: MTU in einem Babel-Netz
 
-Der Einsatz anderer VPN-Technologien (sogar im Parallelbetrieb zu fastd) ist denkbar. In Frankfurt haben wir uns entschieden nicht zu viele Komponenten gleichzeitig auszutauschen. Fastd hat sich bewährt.
+Die MTU von fastd berechnet den im fastd-Paket liegenden Ethernet-Header nicht mit ein. Bei einer fastd-MTU von 1280 ist damit bereits fragmentierungsfreie IPv6-Kommunikation im Netz und außerhalb möglich.
+
+Der Einsatz anderer VPN-Technologien (sogar im Parallelbetrieb zu fastd) ist denkbar. In Frankfurt haben wir uns entschieden nicht zu viele Komponenten gleichzeitig auszutauschen. Es gibt schnellere Lösungen als fastd, fastd hat sich jedoch bewährt.
 
 babeld
 ------
