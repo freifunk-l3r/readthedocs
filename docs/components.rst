@@ -39,7 +39,8 @@ Die Datenströme zur Verwaltung des Netzes liegen daneben.
 .. image:: MTU-calculation-helper-sheet-for-Freifunk-Networks_babel.png
  :name: MTU in einem Babel-Netz
 
-Die MTU von fastd berechnet den im fastd-Paket liegenden Ethernet-Header nicht mit ein. Bei einer fastd-MTU von 1280 ist damit bereits fragmentierungsfreie IPv6-Kommunikation im Netz und außerhalb möglich.
+Die MTU von fastd berechnet den im fastd-Paket liegenden Ethernet-Header nicht mit ein. Bei einer fastd-MTU von 1288 ist bereits fragmentierungsfreie IPv6-Kommunikation im Netz und außerhalb möglich.
+Im Mesh werden durch den mmfd Pakete in UDP-Pakete eingepackt. 1288 ist dadurch die minimale MTU, weil das kleinstmögliche fragmentierungsfreie Paket mit 1280 + 8-Byte UDP-Header über den fastd-Tunnel verschickt werden muss.
 
 Der Einsatz anderer VPN-Technologien (sogar im Parallelbetrieb zu fastd) ist denkbar.
 In Frankfurt haben wir uns entschieden nicht zu viele Komponenten gleichzeitig auszutauschen.
@@ -49,7 +50,19 @@ babeld
 ------
 babeld liest seinen Input für die Optimierung und Verteilung der Routen aus den Tabellen 11 (dorthin schreibt l3roamd) und 12.
 Der Rest funktioniert automatisch. Dabei ist folgende Konfiguration ein guter Startwert:
-TODO Konfiguration einfügen
+
+.. code:: sh
+ 
+ ipv6-subtrees true
+ export-table 10
+ import-table 11
+ import-table 12
+ 
+ interface mesh-vpn-1312
+ interface eth2
+ redistribute metric 256
+
+
 
 l3roamd
 -------
@@ -69,5 +82,5 @@ TODO sobald sich das ändert, dokumentieren
 respondd
 --------
 Der Dienst wird wie im Batman-Netz auch genutzt um Monitoring und Mapdaten im Netz zu transportieren.
-
+Im Gegensatz zu derzeiten Batman-Netzen kommt der respondd auf einer ff05-Adresse zum Einsatz.
 

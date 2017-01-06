@@ -16,8 +16,6 @@ WAN
 Dieses Netz ist das LAN des Betreibers des Nodes.
 
 
-
-
 Pakete
 -------
 l3roamd
@@ -40,7 +38,7 @@ Das Paket enthält ein mmfd-binary. Der mmfd flutet Nachrichten ins Layer 3-Netz
 babeld
 ~~~~~~
 Das Babel Protokoll ist für die Verteilung und Optimierung von Routen über verschiedene Nodes zuständig.
-Es wird eine Entwicklungsversion von Babel 1.8 eingesetzt, weil nur diese die Möglichkeit bietet zur Laufzeit auf die Konfiguration (Ein Socket auf Port ::1 33123) Einfluss zu nehmen.
+Im Zuge der gluon-babel Entwicklung wurde das Babel 1.8-Paket in openwrt integriert. So kann zur Laufzeit auf die Konfiguration von babeld über einen Socket auf ::1 mit Port 33123  Einfluss genommen werden. Zu diesem Socket baut der mmfd eine Verbindung auf um alle nodes im Netz zu ermitteln.
 
 Babel liest auf allen Nodes die Routingtabellen 11 und 12.
 In Tabelle 12 können Babel statische Routen übergeben werden.
@@ -50,7 +48,7 @@ Tabelle 10 wird für das Routing genutzt, sofern die Quell-IP im Mesh- oder Clie
 gluon-mesh-babel
 ~~~~~~~~~~~~~~~~
 Dieses Paket integriert die einzelnen Komponenten mmfd, babeld, und die Firewall.
-Babeld und mmfd werden durch ein in /lib/gluon/core/mesh/setup.d liegendes netifd-Script (neu)gestartet, sobald sich Interfaces ändern.
+Babeld und mmfd werden durch procd (neu)gestartet, sobald sich Interfaces ändern.
 Ob ein Interface für das mesh und damit für die Dienste Babel, l3roamd, mmfd relevant sind, wird anhand des hinterlegten Protokolls :literal:`proto = gluon_mesh` erkannt.
 
 
@@ -77,14 +75,8 @@ Hier wird der AAAA-Record "nextnode" in die nextnode-IP-Adresse aufgelöst.
 
 Interfaces, die das mesh-Protokoll ausführen, werden durch das gluon-core Paket automatisch der mesh-Firewall-Zone zugeordnet.
 
-gluon-client-bridge-babel
-~~~~~~~~~~~~~~~~~~~~~~~~~
-Die Interfaces an denen sich Clients verbinden können (die Wifi-AP-Interfaces und die LAN-Ports) werden durch dieses Paket mit einer Bridge verbunden.
-Der Bridge wird die next-node IP-Adresse zugewiesen.
-Dieses Paket erzeugt die Bridge und weist die Interfaces zu.
-
-ffffm-dns-cache
-~~~~~~~~~~~~~~~
+gluon-dns-config
+~~~~~~~~~~~~~~~~
 Nodes verteilen mittels Router Advertisement ein nutzbares Prefix im Freifunk-Netz.
 Außerdem wird per rdnssd der aktuelle Node als DNS-Server propagiert.
 Der DNS-Cache wird wie folgt konfiguriert: 
@@ -94,12 +86,10 @@ Der DNS-Cache wird wie folgt konfiguriert:
  dns = {
  cacheentries = 5000, 
  servers = { '2a06:8187:fb00:53::53' , } , 
- internaldomain = 'ffffm',  
  },   
 
 * cacheentries gibt an, wie viele Einträge der Cache enthalten soll. Ein Eintrag benötigt ca 90 Byte RAM. Der RAM wird beim Starten des Nodes zugewiesen. 
 * servers enthält die Liste der Upstream-DNS-Server an welche die ankommenden Anfragen im Fall eines Cache-Miss weitergeleitet werden
-* internaldomain ist die netzwerkinterne Domain, die genutzt werden kann um Hostnamen im Netz automatisch zu bestimmen. Dieser Parameter wird ausschließlich in Netzen mit IPv4-Unterstützung genutzt.
 
-
+Dieses Paket ist auch in einem Batman-Netz nutzbar und in Frankfurt bereits im Einsatz. Die DHCP-Server auf den Gateways müssen dann so konfiguriert werden, dass diese als DNS-Server die nextnode IPv4-Adresse bekanntgeben.
 
