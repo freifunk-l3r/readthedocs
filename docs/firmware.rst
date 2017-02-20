@@ -75,8 +75,8 @@ Hier wird der AAAA-Record "nextnode" in die nextnode-IP-Adresse aufgelöst.
 
 Interfaces, die das mesh-Protokoll ausführen, werden durch das gluon-core Paket automatisch der mesh-Firewall-Zone zugeordnet.
 
-gluon-dns-config
-~~~~~~~~~~~~~~~~
+gluon-core
+~~~~~~~~~~
 Nodes verteilen mittels Router Advertisement ein nutzbares Prefix im Freifunk-Netz.
 Außerdem wird per rdnssd der aktuelle Node als DNS-Server propagiert.
 Der DNS-Cache wird wie folgt konfiguriert: 
@@ -84,12 +84,12 @@ Der DNS-Cache wird wie folgt konfiguriert:
 .. code:: lua
 
  dns = {
- cacheentries = 5000, 
+ cacheentries = 4096, 
  servers = { '2a06:8187:fb00:53::53' , } , 
  },   
 
 * cacheentries gibt an, wie viele Einträge der Cache enthalten soll. Ein Eintrag benötigt ca 90 Byte RAM. Der RAM wird beim Starten des Nodes zugewiesen. 
 * servers enthält die Liste der Upstream-DNS-Server an welche die ankommenden Anfragen im Fall eines Cache-Miss weitergeleitet werden
 
-Dieses Paket ist auch in einem Batman-Netz nutzbar und in Frankfurt bereits im Einsatz. Die DHCP-Server auf den Gateways müssen dann so konfiguriert werden, dass diese als DNS-Server die nextnode IPv4-Adresse bekanntgeben.
+Die Änderung ist bereits in gluon Verfügbar und auch in einem Batman-Netz nutzbar. In Frankfurt ist es bereits im Einsatz. Die DHCP-Server auf den Gateways müssen beim Einsatz in einem Batman-Netz so konfiguriert werden, dass diese als DNS-Server die nextnode IPv4-Adresse bekanntgeben.
 
