@@ -62,7 +62,7 @@ Ob ein Interface für das mesh und damit für die Dienste Babel, l3roamd, mmfd r
  Protokolle OUT;  fastd,dns   ; -- ; -- ; -- ; --  
  Protokolle IN;    ssh         ; ssh, dns, http, ntp    ; http, babel, l3roamd, ssh, ntp, dns,mmfd; --               ; respondd
  Protokolle both;  dhcp, ICMPx ; ICMPx	                ; ICMPx, respondd ; --               ; --
- Policy IN;	  DROP	       ; DROP                   ; DROP  ; ACCEPT; DROP (erlaube nur Traffic vom lokalen Node)
+ Policy IN;	  ACCEPT	       ; DROP                   ; DROP  ; ACCEPT; DROP (erlaube nur Traffic vom lokalen Node)
  Policy OUT;	  DROP	       ; ACCEPT                 ; ACCEPT ; ACCEPT;  ACCEPT
  Policy FORWARD;   DROP	       ; DROP, (erlaube Traffic von und nach mesh sowie von und nach client); DROP (erlaube forward von und nach client und von und nach mesh); DROP (erlaube von und nach client); DROP
 

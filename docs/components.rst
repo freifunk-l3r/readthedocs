@@ -49,10 +49,11 @@ Fastd hat sich bewährt.
 babeld
 ------
 babeld liest seinen Input für die Optimierung und Verteilung der Routen aus den Tabellen 11 (dorthin schreibt l3roamd) und 12.
-Der Rest funktioniert automatisch. Dabei ist folgende Konfiguration ein guter Startwert:
+Der Rest funktioniert automatisch. Dabei ist auf dem gateway für 2a06:8187:fb00::/40 die folgende Konfiguration ein guter Startwert:
 
 .. code:: sh
  
+ reflect-kernel-metric true
  ipv6-subtrees true
  export-table 10
  import-table 11
@@ -60,8 +61,7 @@ Der Rest funktioniert automatisch. Dabei ist folgende Konfiguration ein guter St
  
  interface mesh-vpn-1312
  interface eth2
- redistribute metric 256
-
+ redistribute src-prefix 2a06:8187:fb00::/40 metric 25
 
 
 l3roamd
