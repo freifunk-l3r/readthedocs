@@ -57,14 +57,14 @@ Ob ein Interface für das mesh und damit für die Dienste Babel, l3roamd, mmfd r
  :delim: ;
  :stub-columns: 1
  
- Zone;    WAN; Client; Mesh; l3roamd; mmfd
- Interfaces;      br-wan      ; br-client             ; mesh-vpn, meshX                    ; l3roam0          ; mmfd0
- Protokolle OUT;  fastd,dns   ; -- ; -- ; -- ; --  
- Protokolle IN;    ssh         ; ssh, dns, http, ntp    ; http, babel, l3roamd, ssh, ntp, dns,mmfd; --               ; respondd
- Protokolle both;  dhcp, ICMPx ; ICMPx	                ; ICMPx, respondd ; --               ; --
- Policy IN;	  ACCEPT	       ; DROP                   ; DROP  ; ACCEPT; DROP (erlaube nur Traffic vom lokalen Node)
- Policy OUT;	  DROP	       ; ACCEPT                 ; ACCEPT ; ACCEPT;  ACCEPT
- Policy FORWARD;   DROP	       ; DROP, (erlaube Traffic von und nach mesh sowie von und nach client); DROP (erlaube forward von und nach client und von und nach mesh); DROP (erlaube von und nach client); DROP
+ Zone           ; WAN          ; Client                 ; Mesh                               ; l3roamd          ; mmfd
+ Interfaces     ; br-wan       ; br-client              ; mesh-vpn, meshX                    ; l3roam0          ; mmfd0
+ Protokolle OUT ; fastd,dns    ; --                     ; --                                 ; --               ; --
+ Protokolle IN  ; ssh          ; ssh, dns, http, ntp    ; http, babel, l3roamd, ssh, ntp, dns,mmfd; --          ; respondd
+ Protokolle both; dhcp, ICMPx  ; ICMPx                  ; ICMPx, respondd                    ; --               ; --
+ Policy IN      ; DROP         ; DROP                   ; DROP                               ; ACCEPT           ; DROP (erlaube nur Traffic vom lokalen Node)
+ Policy OUT     ; ACCEPT       ; ACCEPT                 ; ACCEPT                             ; ACCEPT           ; ACCEPT
+ Policy FORWARD ; DROP         ; DROP, (erlaube Traffic von und nach mesh sowie von und nach client); DROP (erlaube forward von und nach client und von und nach mesh); DROP (erlaube von und nach client); DROP
 
 
 Auf dem Gerät laufen zwei Instanzen von dnsmasq.
@@ -86,10 +86,15 @@ Der DNS-Cache wird wie folgt konfiguriert:
  dns = {
  cacheentries = 4096, 
  servers = { '2a06:8187:fb00:53::53' , } , 
- },   
+ },
+ next_node = {
+ name = 'nextnode',
+ ...
+ }
 
 * cacheentries gibt an, wie viele Einträge der Cache enthalten soll. Ein Eintrag benötigt ca 90 Byte RAM. Der RAM wird beim Starten des Nodes zugewiesen. 
 * servers enthält die Liste der Upstream-DNS-Server an welche die ankommenden Anfragen im Fall eines Cache-Miss weitergeleitet werden
+* Der dnsmasq löst den unter next_node.name angegebenen Namen, hier "nextnode", in die next-node IP-Adresse auf.
 
 Die Änderung ist bereits in gluon Verfügbar und auch in einem Batman-Netz nutzbar. In Frankfurt ist es bereits im Einsatz. Die DHCP-Server auf den Gateways müssen beim Einsatz in einem Batman-Netz so konfiguriert werden, dass diese als DNS-Server die nextnode IPv4-Adresse bekanntgeben.
 
