@@ -18,10 +18,10 @@ besondere Adressen/Netze
  :delim: ;
 
  Adresse; Bedeutung
- 2a06:8187:fbab:2::1; next-node IP-Adresse: Diese Adresse ist jedem Node zugewiesen. Der Node ist für alle direkt verbundenen Clients unter dieser Adresse erreichbar.
- 2a06:8187:fbab:1::/64;   eine bestimmte IP-Adresse in diesem Netz ist die local-node-IP-Adresse. Diese wird anhand der MAC-Adresse des Nodes bestimmt und dem  lokalen Interface "lo" zugewiesen.
- 2a06:8187:fbab:1::/64;   Infrastruktur-Netz: In diesem Netz liegen Nodes und Serverkomponenten
- 2a06:8187:fbab:2::/64;   Client-Netz: In diesem Netz liegen Clients
+ 2001:DB8:3:1::1; next-node IP-Adresse: Diese Adresse ist jedem Node zugewiesen. Der Node ist für alle direkt verbundenen Clients unter dieser Adresse erreichbar.
+ 2001:DB8:3:1:/64;   eine bestimmte IP-Adresse in diesem Netz ist die local-node-IP-Adresse. Diese wird anhand der MAC-Adresse des Nodes bestimmt und dem  lokalen Interface "lo" zugewiesen.
+ 2001:DB8:3:1:/64;   Infrastruktur-Netz: In diesem Netz liegen Nodes und Serverkomponenten
+ 2001:DB8:3:2:/64;   Client-Netz: In diesem Netz liegen Clients. Dieses darf ein anderes als das node-Netz sein.
 
 Jeder Node und jeder Client ist somit über eine öffentliche IPv6-Adresse erreichbar.  
 
@@ -42,14 +42,14 @@ Die Datenströme zur Verwaltung des Netzes liegen daneben.
 Die MTU von fastd berechnet den im fastd-Paket liegenden Ethernet-Header nicht mit ein. Bei einer fastd-MTU von 1288 ist bereits fragmentierungsfreie IPv6-Kommunikation im Netz und außerhalb möglich.
 Im Mesh werden durch den mmfd Pakete in UDP-Pakete eingepackt. 1288 ist dadurch die minimale MTU, weil das kleinstmögliche fragmentierungsfreie Paket mit 1280 + 8-Byte UDP-Header über den fastd-Tunnel verschickt werden muss.
 
-Der Einsatz anderer VPN-Technologien (sogar im Parallelbetrieb zu fastd) ist denkbar.
+Der Einsatz anderer VPN-Technologien (auch im Parallelbetrieb zu fastd) ist denkbar.
 In Frankfurt haben wir uns entschieden nicht zu viele Komponenten gleichzeitig auszutauschen.
-Fastd hat sich bewährt.
+Fastd hat sich bewährt und wird weiter eingesetzt.
 
 babeld
 ------
-babeld liest seinen Input für die Optimierung und Verteilung der Routen aus den Tabellen 11 (dorthin schreibt l3roamd) und 12.
-Der Rest funktioniert automatisch. Dabei ist auf dem gateway für 2a06:8187:fb00::/40 die folgende Konfiguration ein guter Startwert:
+babeld liest seinen Input für die Optimierung und Verteilung der Routen aus der main Routing-Tabelle.
+Der Rest funktioniert automatisch. Dabei ist auf dem gateway für 2001:DB8::/40 die folgende Konfiguration ein guter Startwert:
 
 .. code:: sh
  
@@ -61,13 +61,12 @@ Der Rest funktioniert automatisch. Dabei ist auf dem gateway für 2a06:8187:fb00
  
  interface mesh-vpn-1312
  interface eth2
- redistribute src-prefix 2a06:8187:fb00::/40 metric 25
+ redistribute src-prefix 2001:DB8::/40 metric 25
 
 
 l3roamd
 -------
 l3roamd läuft auf jedem Node, damit Clientrouten ermittelt und übermittelt werden können. Weil gegenwärtig l3roamd nicht ohne client-Interface läuft, wird dieses mit "lo" angegeben.
-Momentan muss das Kernelmodul CFG80211 geladen sein, damit l3roamd startet.
 
 mmfd
 ----
@@ -76,8 +75,7 @@ Benötigt wird das um respondd auf den Nodes anzustoßen, Daten für die Map und
 
 prefixd
 -------
-Dieser Dienst existiert noch nicht.
-TODO sobald sich das ändert, dokumentieren
+eine Shell-Implementierung eines prefixd ist in einer Entwicklungsversion verfügbar. Dadurch wird die Verteilung eines eigenen prefix an lokale Clients ermöglicht. Gegenwärtig wird kein roaming von Clients in geteilten prefixes unterstützt.
 
 respondd
 --------

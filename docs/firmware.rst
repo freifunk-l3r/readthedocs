@@ -85,7 +85,7 @@ Der DNS-Cache wird wie folgt konfiguriert:
 
  dns = {
  cacheentries = 4096, 
- servers = { '2a06:8187:fb00:53::53' , } , 
+ servers = { '2001:DB8:3:53::53' , } , 
  },
  next_node = {
  name = 'nextnode',
