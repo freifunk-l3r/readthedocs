@@ -19,9 +19,9 @@ besondere Adressen/Netze
 
  Adresse; Bedeutung
  2001:DB8:3:1::1; next-node IP-Adresse: Diese Adresse ist jedem Node zugewiesen. Der Node ist für alle direkt verbundenen Clients unter dieser Adresse erreichbar.
- 2001:DB8:3:1:/64;   eine bestimmte IP-Adresse in diesem Netz ist die local-node-IP-Adresse. Diese wird anhand der MAC-Adresse des Nodes bestimmt und dem  lokalen Interface "lo" zugewiesen.
- 2001:DB8:3:1:/64;   Infrastruktur-Netz: In diesem Netz liegen Nodes und Serverkomponenten
- 2001:DB8:3:2:/64;   Client-Netz: In diesem Netz liegen Clients. Dieses darf ein anderes als das node-Netz sein.
+ 2001:DB8:3:1::/128;   eine bestimmte IP-Adresse in diesem Netz ist die local-node-IP-Adresse. Diese wird anhand der MAC-Adresse des Nodes bestimmt und dem  lokalen Interface "lo" zugewiesen.
+ 2001:DB8:3:1::/64;   Infrastruktur-Netz: In diesem Netz liegen Nodes und Serverkomponenten
+ 2001:DB8:3:2::/64;   Client-Netz: In diesem Netz liegen Clients. Dieses darf ein anderes als das node-Netz sein.
 
 Jeder Node und jeder Client ist somit über eine öffentliche IPv6-Adresse erreichbar.  
 
@@ -66,7 +66,7 @@ Der Rest funktioniert automatisch. Dabei ist auf dem gateway für 2001:DB8::/40 
 
 l3roamd
 -------
-l3roamd läuft auf jedem Node, damit Clientrouten ermittelt und übermittelt werden können. Weil gegenwärtig l3roamd nicht ohne client-Interface läuft, wird dieses mit "lo" angegeben.
+l3roamd läuft auf jedem Node, damit Clientrouten ermittelt und übermittelt werden können.
 
 mmfd
 ----
@@ -75,7 +75,7 @@ Benötigt wird das um respondd auf den Nodes anzustoßen, Daten für die Map und
 
 prefixd
 -------
-eine Shell-Implementierung eines prefixd ist in einer Entwicklungsversion verfügbar. Dadurch wird die Verteilung eines eigenen prefix an lokale Clients ermöglicht. Gegenwärtig wird kein roaming von Clients in geteilten prefixes unterstützt.
+eine Shell-Implementierung eines prefixd ist in einer Entwicklungsversion verfügbar. Dadurch wird die Verteilung eines eigenen prefix an lokale Clients ermöglicht.
 
 respondd
 --------
