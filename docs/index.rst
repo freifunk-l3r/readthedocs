@@ -6,15 +6,15 @@
 Welcome to L3-Freifunk's documentation!
 =======================================
 
-Contents:
+Content:
 
 .. toctree::
    :maxdepth: 2
 
    components
    firmware
-   interaction
    server
+   interaction
 
 
 Indices and tables
