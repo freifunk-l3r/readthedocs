@@ -105,11 +105,17 @@ Let’s start a database and write down
 * our IP address,
 * the client’s MAC address,
 * IP addresses used by that client and
-* timestamps for when each IP was last discovered.
 
 Oh, and for good measure, flood this database entry through the mesh. Any node 
 will thus have the same knowledge and could, for any client identified by its 
 MAC address, lookup all corresponding IP addresses used by that client.
+
+Looking at this database, it is hard to miss that we have those information in 
+the routing table. When a client connects to a node, the node will add a 
+special host-route to the routing table. This special IP is generated from the 
+clients MAC address. Knowing a MAC means the node holding a client can be 
+contacted and queried for information. It can also be commanded to drop the 
+client due to roaming.
 
 So now our client decides to switch to another node. What happens? Well, the 
 wireless layer will detect the client’s MAC address and we’re going to hook 
@@ -130,21 +136,6 @@ to each other. Only a few neighbours will need to update their routes while
 nodes further away may not need to recalculate all metrics just yet. In case 
 the previous node has disappeared from the mesh, all is well, too. The new 
 node’s routes will take over.
-
-# Getting l3roamd ready
-
-So this is seamless client roaming. What are the problems we need to solve for 
-this to work?
-
-l3roamd needs to be written, of course. The biggest pain point being its 
-distributed database. We’d like it to contain as little data and require as 
-little management traffic as reasonably possible. It is probably fine to forget 
-a client and its routes in case of disappearing nodes. We can rediscover these 
-routes. It may suffice for only a single node to hold information about a 
-specific client. Other nodes would then query the network for the node holding 
-that information. This will cause hiccups when roaming from a disappearing node 
-but that may be acceptable. Further ideas are welcome!
-
 
 # Multiple Client Prefixes
 
@@ -180,16 +171,16 @@ throughout all components of the mesh. This will allow coexistence of multiple
 prefixes within the same mesh. In the most extreme case, this will allow 
 connecting different meshes (e.g. Freifunk Communities) without doing any harm.
 
+This feature is used to allow decentralized exits.
+
 # DNS
 
-This is a aspect of the Layer 3 Master Plan we haven’t put any thought into 
-yet. The general idea is probably, that nodes are going to provide a DNS 
-resolver on the next node address. There’s no further concept yet and if you 
-feel like digging into this, by all means go ahead. It’s certainly an 
+Nodes provide a DNS resolver on the next node address. It’s certainly an 
 interesting topic and unrelated to l3roamd or the client prefix daemon. It’s 
 not even related to babel.
 
-Could we do anycast DNS in a Layer 3 mesh?
+Could we do anycast DNS in a Layer 3 mesh. The upstream DNS could use anycast. 
+That depends on the implementation of each community.
 
 # Multicast Routing
 
@@ -200,7 +191,21 @@ network.
 
 # Telemetry
 
-There’s no concept for telemetry (think alfred, respondd) for a Layer 3 mesh 
-yet. Collecting information locally is trivial. Getting it to some sinks not so 
-much.
+Telemetry can be collected from respondd with yanic. Yanic will create a 
+request that will have to be routed to every node. mmfd does that.
+This means mmfd must run on the host where yanic works.
 
+The idea is to run yanic on every gateway that is provided by the community and 
+forward the data to a central instance that is feeding the map. The yanic 
+instances on the gateways run at reduced the interval. By using the 
+synchronized configuration setting we can get good telemetry when all gateways 
+are working and we lose some resolution when gateways fail. At the same time 
+the network will not be overloaded.
+
+Mmfd will discover its neighbours using multicast and tunnel multicast traffic 
+that was received on a tun device to the whole network.
+
+# Contact
+
+If you’d like to contribute, you can reach me at christof.schulze@gmx.net and 
+in #gluon on hackint.
